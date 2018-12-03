@@ -1,4 +1,5 @@
 #!/bin/bash
+# set -x
 
 if [ ! -f "config.sh" ]; then
 	echo Configuration file not found
@@ -76,7 +77,7 @@ if [ "${ENABLE_PKS}" = true ]; then
 	echo PKS UAA Endpoint = "$PKS_UAA"
 	echo PKS API Endpoint = "${PKS_API}"
 	echo "Getting PKS credentials from opsman"
-	PKS_UAA_CREDENTIALS="$(om --format=json -k -u "${OPSMAN_ADMIN_USER}" -p "${OPSMAN_ADMIN_PASS}" -t "${OPSMAN_URI}" credentials -p pivotal-container-service --credential-reference ".properties.uaa_admin_secret")"
+	PKS_UAA_CREDENTIALS="$(om --format=json -k -u "${OPSMAN_ADMIN_USER}" -p "${OPSMAN_ADMIN_PASS}" -t "${OPSMAN_URI}" credentials -p pivotal-container-service --credential-reference ".properties.pks_uaa_management_admin_client")"
 	PKS_ADMIN_NAME="admin"
 	PKS_ADMIN_PASS=$(echo "${PKS_UAA_CREDENTIALS}" | jq -r '.secret')
 fi
