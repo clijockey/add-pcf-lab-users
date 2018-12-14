@@ -54,8 +54,8 @@ if [ "${ENABLE_PAS}" = true ]; then
 	echo PAS UAA Endpoint = "${PAS_UAA}"
 	echo CF API Endpoint = "${PAS_API}"
 	echo "Getting PAS credentials from Opsman"
-	PAS_CF_CREDENTIALS="$(om --format=json -k -u "${OPSMAN_ADMIN_USER}" -p "${OPSMAN_ADMIN_PASS}" -t "${OPSMAN_URI}" credentials -p cf --credential-reference ".uaa.admin_credentials")"
-	PAS_UAA_CREDENTIALS="$(om --format=json -k -u "${OPSMAN_ADMIN_USER}" -p "${OPSMAN_ADMIN_PASS}" -t "${OPSMAN_URI}" credentials -p cf --credential-reference ".uaa.admin_client_credentials")"
+	PAS_CF_CREDENTIALS="$(om -k -u "${OPSMAN_ADMIN_USER}" -p "${OPSMAN_ADMIN_PASS}" -t "${OPSMAN_URI}" credentials -p cf --credential-reference ".uaa.admin_credentials" --format=json)"
+	PAS_UAA_CREDENTIALS="$(om -k -u "${OPSMAN_ADMIN_USER}" -p "${OPSMAN_ADMIN_PASS}" -t "${OPSMAN_URI}" credentials -p cf --credential-reference ".uaa.admin_client_credentials" --format=json)"
 	PAS_UAA_ADMIN_NAME=$(echo "${PAS_UAA_CREDENTIALS}" | jq -r '.identity')
 	PAS_UAA_ADMIN_PASS=$(echo "${PAS_UAA_CREDENTIALS}" | jq -r '.password')
 	PAS_ADMIN_NAME=$(echo "${PAS_CF_CREDENTIALS}" | jq -r '.identity')
@@ -77,7 +77,7 @@ if [ "${ENABLE_PKS}" = true ]; then
 	echo PKS UAA Endpoint = "$PKS_UAA"
 	echo PKS API Endpoint = "${PKS_API}"
 	echo "Getting PKS credentials from opsman"
-	PKS_UAA_CREDENTIALS="$(om --format=json -k -u "${OPSMAN_ADMIN_USER}" -p "${OPSMAN_ADMIN_PASS}" -t "${OPSMAN_URI}" credentials -p pivotal-container-service --credential-reference ".properties.pks_uaa_management_admin_client")"
+	PKS_UAA_CREDENTIALS="$(om -k -u "${OPSMAN_ADMIN_USER}" -p "${OPSMAN_ADMIN_PASS}" -t "${OPSMAN_URI}" credentials -p pivotal-container-service --credential-reference ".properties.pks_uaa_management_admin_client" --format=json)"
 	PKS_ADMIN_NAME="admin"
 	PKS_ADMIN_PASS=$(echo "${PKS_UAA_CREDENTIALS}" | jq -r '.secret')
 fi
